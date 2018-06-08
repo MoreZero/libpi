@@ -11,7 +11,7 @@ void SoftPwm::Stop() {
 }
     
 int32_t SoftPwm::Start() {
-    if (is_stop_ == false) {	// Already running on this pin
+    if (is_stop_ == false) {    // Already running on this pin
         return -1 ;
     }
 
@@ -53,5 +53,80 @@ void* SoftPwm::SoftPwmThreadHandle(void *arg) {
     }
 
     return NULL ;
-
 }
+
+// -----------------------------------------------------------------------------
+
+void SoftPwmGroup::SetMark(int32_t index, int32_t mark) {
+    mark_vec_[index]=mark;
+}
+
+void SoftPwm::Stop() {
+    is_stop_ = true;
+}
+    
+int32_t SoftPwm::Start() {
+    if (is_stop_ == false) {    // Already running on this pin
+        return -1 ;
+    }
+
+    for (uint32_t i=0; i<pin_vec_; ++i) {
+        pin_vec_[i].SetOutput();
+        pin_vec_[i].SetLow();
+    }
+
+    int32_t res = pthread_create (&thread_, NULL, SoftPwm::SoftPwmGroupThreadHandle, (void *)this) ;
+    if (res == 0) {
+        is_stop_ = false;
+    }
+    return res ;
+}
+
+void* SoftPwmGroup::SoftPwmGroupThreadHandle(void *arg) {
+    SoftPwmGroup* soft_pwm_group = (SoftPwmGroup*)arg;
+   
+    // 时间片轮转法 
+    struct sched_param param ;
+    param.sched_priority = sched_get_priority_max(SCHED_RR) ;
+    pthread_setschedparam(pthread_self(), SCHED_RR, &param) ;
+    piHiPri(90);
+
+    vector<Pin&>  pin_vec = soft_pwm->pin_vec_;
+    int32_t cycle = soft_pwm->cycle_;
+    int32_t mark_size = soft_pwm->mark_size_;
+    int32_t mark;
+    int32_t used_mark;
+
+    while(!soft_pwm->is_stop_) {
+        used_mark = 0;
+        for (int32_t i=0; i<pin_vec.size(); ++i) {
+            mark = soft_pwm->mark_vec_[i];
+            if (mark == 0) {
+                delayMicroseconds(mark_size);
+            }else {
+                Pin& pin = pin_vec[i];
+                pin[i].SetHigh();
+                delayMicroseconds(mark);
+                pin[i].SetLow();
+                delayMicroseconds(mark_size-mark);
+            }
+            used_mark += mark_size;
+        }
+        
+        delayMicroseconds(cycle-used_mark);
+    }
+
+    return NULL ;
+}
+
+
+
+
+
+
+
+
+
+
+
+

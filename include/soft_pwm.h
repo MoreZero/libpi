@@ -26,6 +26,30 @@ private:
     pthread_t thread_ ;
 };
 
+class SoftPwmGroup
+{
+public:
+    SoftPwmGroup(int32_t cycle, int32_t mark_size)
+            : cycle_(cycle), mark_size_(mark_size), is_stop_(true){}
+    void SetMark(int32_t index, int32_t mark);
+    void AddPin(Pin& pin) {pin_vec_.push_back(pin);}
+    int32_t Start();
+    void Stop();
+
+    static void* SoftPwmGroupThreadHandle(void *arg);
+
+private:
+    vector<Pin&>        pin_vec_;
+    vector<int32_t>     mark_vec_;
+    int32_t cycle_;
+    int32_t mark_size_;
+    bool    is_stop_;
+    pthread_t thread_ ;
+};
+
+
+
+
 
 
 
