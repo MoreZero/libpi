@@ -58,7 +58,11 @@ void* SoftPwm::SoftPwmThreadHandle(void *arg) {
 // -----------------------------------------------------------------------------
 
 void SoftPwmGroup::SetMark(int32_t index, int32_t mark) {
-    mark_vec_[index]=mark;
+    mark_vec_[index] = mark;
+}
+
+void SoftPwmGroup::AddMark(int32_t index, int32_t size) {
+    mark_vec_[index] += size;
 }
 
 void SoftPwmGroup::Stop() {

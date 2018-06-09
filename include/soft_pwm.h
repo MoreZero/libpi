@@ -35,6 +35,7 @@ public:
     SoftPwmGroup(int32_t cycle, int32_t mark_size)
             : cycle_(cycle), mark_size_(mark_size), is_stop_(true){}
     void SetMark(int32_t index, int32_t mark);
+    void AddMark(int32_t index, int32_t size);
     void AddPin(Pin& pin) {pin_vec_.push_back(pin);}
     int32_t Start();
     void Stop();
