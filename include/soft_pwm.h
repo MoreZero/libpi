@@ -4,8 +4,11 @@
 #include <wiringPi.h>
 #include <pthread.h>
 #include <stdint.h>
+#include <vector>
 
 #include "pin.h"
+
+using namespace std;
 
 class SoftPwm
 {
@@ -39,7 +42,7 @@ public:
     static void* SoftPwmGroupThreadHandle(void *arg);
 
 private:
-    vector<Pin&>        pin_vec_;
+    vector<Pin>        pin_vec_;
     vector<int32_t>     mark_vec_;
     int32_t cycle_;
     int32_t mark_size_;

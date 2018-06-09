@@ -61,21 +61,21 @@ void SoftPwmGroup::SetMark(int32_t index, int32_t mark) {
     mark_vec_[index]=mark;
 }
 
-void SoftPwm::Stop() {
+void SoftPwmGroup::Stop() {
     is_stop_ = true;
 }
     
-int32_t SoftPwm::Start() {
+int32_t SoftPwmGroup::Start() {
     if (is_stop_ == false) {    // Already running on this pin
         return -1 ;
     }
 
-    for (uint32_t i=0; i<pin_vec_; ++i) {
+    for (uint32_t i=0; i<pin_vec_.size(); ++i) {
         pin_vec_[i].SetOutput();
         pin_vec_[i].SetLow();
     }
 
-    int32_t res = pthread_create (&thread_, NULL, SoftPwm::SoftPwmGroupThreadHandle, (void *)this) ;
+    int32_t res = pthread_create(&thread_, NULL, SoftPwmGroup::SoftPwmGroupThreadHandle, (void *)this) ;
     if (res == 0) {
         is_stop_ = false;
     }
@@ -91,23 +91,23 @@ void* SoftPwmGroup::SoftPwmGroupThreadHandle(void *arg) {
     pthread_setschedparam(pthread_self(), SCHED_RR, &param) ;
     piHiPri(90);
 
-    vector<Pin&>  pin_vec = soft_pwm->pin_vec_;
-    int32_t cycle = soft_pwm->cycle_;
-    int32_t mark_size = soft_pwm->mark_size_;
+    vector<Pin>  pin_vec = soft_pwm_group->pin_vec_;
+    int32_t cycle = soft_pwm_group->cycle_;
+    int32_t mark_size = soft_pwm_group->mark_size_;
     int32_t mark;
     int32_t used_mark;
 
-    while(!soft_pwm->is_stop_) {
+    while(!soft_pwm_group->is_stop_) {
         used_mark = 0;
-        for (int32_t i=0; i<pin_vec.size(); ++i) {
-            mark = soft_pwm->mark_vec_[i];
+        for (uint32_t i=0; i<pin_vec.size(); ++i) {
+            mark = soft_pwm_group->mark_vec_[i];
             if (mark == 0) {
                 delayMicroseconds(mark_size);
             }else {
                 Pin& pin = pin_vec[i];
-                pin[i].SetHigh();
+                pin.SetHigh();
                 delayMicroseconds(mark);
-                pin[i].SetLow();
+                pin.SetLow();
                 delayMicroseconds(mark_size-mark);
             }
             used_mark += mark_size;

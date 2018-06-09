@@ -1,6 +1,7 @@
 
 #包含的头文件
 INCLUDE_DIRECTORIES(../include)
+INCLUDE_DIRECTORIES(../../escpplib/include)
 
 # 需要编译的源文件目录
 #AUX_SOURCE_DIRECTORY(./log SRC_LIST)
@@ -11,6 +12,7 @@ INCLUDE_DIRECTORIES(../include)
 #AUX_SOURCE_DIRECTORY(./srv/event SRC_LIST)
 #AUX_SOURCE_DIRECTORY(./srv/simple_server SRC_LIST)
 AUX_SOURCE_DIRECTORY(./pwm SRC_LIST)
+AUX_SOURCE_DIRECTORY(./key SRC_LIST)
 message("SRC_LIST src:${SRC_LIST}")
 
 #设置编译参数
