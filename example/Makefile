@@ -1,5 +1,6 @@
 all:
 	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include pwm_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o pwm_test -lpthread -lwiringPi
+	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include pwm_group_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o pwm_group_test -lpthread -lwiringPi
 	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include matrix_keyboard_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o matrix_keyboard_test -lpthread -lwiringPi
 
 #	g++ -g -std=c++11 -Wall -I ../include seq_thread_processor_test.cpp -o seq_thread_processor_test -lpthread

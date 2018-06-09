@@ -71,6 +71,7 @@ int32_t SoftPwmGroup::Start() {
     }
 
     for (uint32_t i=0; i<pin_vec_.size(); ++i) {
+        mark_vec_.push_back(0);
         pin_vec_[i].SetOutput();
         pin_vec_[i].SetLow();
     }
