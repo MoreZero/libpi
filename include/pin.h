@@ -22,6 +22,18 @@ public:
     void SetInput() {
         pinMode(pin_id_, INPUT);
     }
+    void SetPwm() {
+        pinMode(pin_id_, PWM_OUTPUT);
+    }
+    void SetPwmRange(int32_t range) {
+        pwmSetRange(range);
+    }
+    void SetPwmValue(int32_t value) {
+        pwmWrite(pin_id_, value);
+    }
+    void SetPwmClock(int32_t value) {
+        pwmSetClock(value);
+    }
 
     void PullUp() {
         pullUpDnControl(pin_id_, PUD_UP);

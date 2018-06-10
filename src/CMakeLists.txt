@@ -13,6 +13,7 @@ INCLUDE_DIRECTORIES(../../escpplib/include)
 #AUX_SOURCE_DIRECTORY(./srv/simple_server SRC_LIST)
 AUX_SOURCE_DIRECTORY(./pwm SRC_LIST)
 AUX_SOURCE_DIRECTORY(./key SRC_LIST)
+AUX_SOURCE_DIRECTORY(./engine SRC_LIST)
 message("SRC_LIST src:${SRC_LIST}")
 
 #设置编译参数
