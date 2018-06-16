@@ -82,9 +82,29 @@ void MatrixKeyboard::Start() {
     }
 }
 
-void MatrixKeyboard::ScanDown(int32_t l) {
-//    LOG_DEBUG("ScanDown l%d", l);
+void MatrixKeyboard::StartWithoutScan() {
+    for (int32_t i=0; i<4; ++i) {
+        pin_r_array_[i].SetOutput();
+        pin_r_array_[i].SetLow();
+        
+        pin_l_array_[i].SetInput();
+        pin_l_array_[i].PullUp();
+    }
+}
 
+int32_t MatrixKeyboard::Scan() {
+    int32_t down_cnt=0;
+    for (int32_t i=0; i<4; ++i) {
+        if (LOW == pin_l_array_[i].Level()) {
+            down_cnt += ScanDown(i);
+        }
+    }
+    return down_cnt;
+}
+
+int32_t MatrixKeyboard::ScanDown(int32_t l) {
+//    LOG_DEBUG("ScanDown l%d", l);
+    int32_t down_cnt=0;
     for (int32_t i=0; i<4; ++i) {
         pin_r_array_[i].SetHigh();
     }
@@ -94,6 +114,7 @@ void MatrixKeyboard::ScanDown(int32_t l) {
             LOG_DEBUG("key l:%d r:%d", l, i);
             KeyHandleFunc& func = key_handle_matrix_[l][i];
             if (func) {
+                ++down_cnt;
                 func(l, i);
             }
         }
@@ -102,7 +123,7 @@ void MatrixKeyboard::ScanDown(int32_t l) {
     for (int32_t i=0; i<4; ++i) {
         pin_r_array_[i].SetLow();
     }
-
+    return down_cnt;
 }
 
 void MatrixKeyboard::RegisterFunc(int32_t l, int32_t r, KeyHandleFunc func) {

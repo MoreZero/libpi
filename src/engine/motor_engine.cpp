@@ -12,8 +12,13 @@ MotorEngine::MotorEngine(Pin& pin_a_1, Pin& pin_a_2, Pin& pin_b_1, Pin& pin_b_2,
     pin_a_2_.SetLow();
     pin_b_1_.SetLow();
     pin_b_2_.SetLow();
-    
 
+}
+
+MotorEngine::~MotorEngine() {
+    Stop(0);
+    Stop(1);
+    pin_a_pwm_.SetOutput();
 }
 
 void MotorEngine::Advance(int32_t index) {
@@ -45,35 +50,6 @@ void MotorEngine::Stop(int32_t index) {
         pin_b_2_.SetLow();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

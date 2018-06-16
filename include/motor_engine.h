@@ -13,6 +13,7 @@ class MotorEngine
 {
 public:
     MotorEngine(Pin& pin_a_1, Pin& pin_a_2, Pin& pin_b_1, Pin& pin_b_2, Pin& pin_a_pwm, Pin& pin_b_pwm);
+    ~MotorEngine();
 
     void Advance(int32_t index);
     void Retreat(int32_t index);

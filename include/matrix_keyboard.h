@@ -19,7 +19,9 @@ public:
 
     void StartISR();
     void Start();
-    void ScanDown(int32_t l);
+    void StartWithoutScan();
+    int32_t Scan();
+    int32_t ScanDown(int32_t l);
 
     void RegisterFunc(int32_t l, int32_t r, KeyHandleFunc func);
 
