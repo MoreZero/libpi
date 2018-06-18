@@ -73,9 +73,18 @@ int main(int argc, char** argv){
     escpplib::default_proto_head_t head;
     void* buff = (void*)&head;
     size_t len = sizeof(escpplib::default_proto_head_t);
+    
+    int32_t old_cmd=0;
     while(1){
         int32_t cnt = m_k.Scan();
         if (cnt == 0) cmd=5;
+
+        if (old_cmd == cmd) {
+            delay(50);
+            continue;
+        }
+        old_cmd = cmd;
+
         head.head_size = sizeof(escpplib::default_proto_head_t);
         head.body_size = 0;
         head.cmd = cmd;
@@ -83,7 +92,7 @@ int main(int argc, char** argv){
         ret = client_socket.Send(buff, len, 0);
         LOG_INFO("client_socket.SendStr:%d", ret);
         
-        delay(100);
+        delay(50);
     }
 
 
