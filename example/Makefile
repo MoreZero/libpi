@@ -6,7 +6,8 @@ all:
 	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include motor_engine_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o motor_engine_test -lpthread -lwiringPi
 	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include tank_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o tank_test -lpthread -lwiringPi
 	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include tank_remote_ctl.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o tank_remote_ctl -lpthread -lwiringPi
-
+	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include nrf24l01_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o nrf24l01_test -lpthread -lwiringPi
+	g++ -g -std=c++11 -Wall -I ../include -I ../../escpplib/include nrf24l01_send_test.cpp ../src/libpi.a ../../escpplib/src/libescpplib.a -o nrf24l01_send_test -lpthread -lwiringPi
 #	g++ -g -std=c++11 -Wall -I ../include seq_thread_processor_test.cpp -o seq_thread_processor_test -lpthread
 #	g++ -g -std=c++11 -Wall -I ../include  log_test.cpp ../src/libescpplib.a  -o log_test -lpthread
 #	g++ -g -std=c++11 -Wall -I ../include  cost_time_test.cpp ../src/libescpplib.a  -o cost_time_test 
