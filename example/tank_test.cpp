@@ -28,13 +28,13 @@ public:
     }
 
     void Left() {
-        engine_.Retreat(0);
-        engine_.Advance(1);
+        engine_.Retreat(1);
+        engine_.Advance(0);
     }
     
     void Right() {
-        engine_.Advance(0);
-        engine_.Retreat(1);
+        engine_.Advance(1);
+        engine_.Retreat(0);
     }
 
     void Stop() {

@@ -16,9 +16,9 @@ int main(int argc, char** argv){
     LOG_INFO("Init ret:%d", ret);
     nrf24l01.SetTXMode();
 
-    for (int i=0; i<100; i++) {
+    for (int i=0; i<1000; i++) {
         nrf24l01.Write();
-        delay(1000);    
+        delay(10);    
     }
 
     LOG_INFO("end");
